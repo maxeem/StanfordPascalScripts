@@ -1,0 +1,84 @@
+#!/bin/bash
+
+usage="
+    Usage: stpascal.sh
+    Stanford Pascal runner
+
+    Script prepared by: Maksim A.
+    eng.maksim@gmail.com
+
+    PASCAL binary compiled from:
+    https://github.com/StanfordPascal/Pascal
+
+    31-May-2023
+"
+
+if [[ $# -ne 1 ]]; then
+    printf "    ### Error: Only one argument (program_name) should be passed ###\n"
+    printf "%s\n" "$usage"
+    exit 1
+fi
+
+filename="$1"
+if [[ ! $filename == /* ]]; then
+  # Prepend the CWD to the file path
+  filename="$(cd "$(dirname "$filename")" && pwd)/$(basename "$filename")"
+fi
+
+
+if [[ ! -f "$filename" ]]; then
+    printf "    ### File %s does not exist ###\n" "$filename"
+    printf "%s\n" "$usage"
+    exit 1
+fi
+
+if [[ $(stat -c %s "$filename") -eq 0 ]]; then
+    printf "    File %s is empty\n" "$filename"
+    printf "%s\n" "$usage"
+    exit 1
+fi
+
+if [[ "$filename" == *.pcode ]]; then
+    printf "Processing compiled file..\n"
+    _fn="${filename%.*}"
+    if ! result=$(./prun "$_fn" 2>&1); then
+        printf "%s\n" "$result"
+        printf "    Failed to run compiled file..!\n"
+        exit 1
+    fi
+    printf "%s\n" "$result"
+    exit 0
+
+elif [[ ! "$filename" == *.pas ]]; then
+    printf "Please pass a file that ends with .pas, or a compiled .pcode file\n"
+    exit 1
+else
+    fn="${filename%.*}.pcode"
+    if [[ -f "$fn" ]]; then
+        rm "$fn"
+    fi
+fi
+
+printf "Compiling %s...\n" "$filename"
+if ! result=$(./pp "${filename%.*}" 2>&1); then
+    printf "%s\n" "$result"
+    printf "    Compilation failed for %s\n" "$filename"
+    exit 1
+fi
+printf "%s\n" "$result"
+
+fn="${filename%.*}.pcode"
+if [[ ! -f "$fn" ]]; then
+    printf "    Compilation failed for %s, %s not found\n" "$filename" "$fn"
+    printf "%s\n" "$usage"
+    exit 1
+fi
+
+_fn="${fn%.*}"
+if ! result=$(./prun "$_fn" 2>&1); then
+    printf "%s\n" "$result"
+    printf "    Failed to run compiled file..!\n"
+    exit 1
+fi
+printf "%s\n" "$result"
+

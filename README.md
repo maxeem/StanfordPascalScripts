@@ -1,5 +1,7 @@
 STANFORD PASCAL COMPILER - Convenience Scripts
 
+These are just some convenience scripts for the stanford pascal (http://bernd-oppolzer.de/job9.htm)
+
 The purpose of this project is to simplify the compilation and execution process for Linux users.
 
 This initial release is specifically designed for Ubuntu 22.04 LTS.

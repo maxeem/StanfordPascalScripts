@@ -1,0 +1,8 @@
+If you are using vim, it might use tabs for spacing, which is an illegal character for the compiler.
+
+Please run:
+
+echo "set expandtab" >> ~/.vimrc
+echo "set shiftwidth=4" >> ~/.vimrc
+
+To switch to spaces.

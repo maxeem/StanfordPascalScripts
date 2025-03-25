@@ -4,11 +4,11 @@ These are just some convenience scripts for the stanford pascal (http://bernd-op
 
 The purpose of this project is to simplify the compilation and execution process for Linux users.
 
-This initial release is specifically designed for Ubuntu 22.04 LTS.
+This initial release is specifically designed for Ubuntu 22.04 and 24.04 LTS, but can easily be generated for other distros.
 
 To get started, follow these steps:
 
-    - Copy the file from the "releases/ubuntu22.04" directory to a location within your system's PATH, such as "/usr/local/bin".
+    - Copy the file from the "releases/ubuntu2X.04" directory to a location within your system's PATH, such as "/usr/local/bin".
 
     - Navigate to your code directory and execute the script against your source file:
 
